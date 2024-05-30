@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tryagain-95ac3": {
+      "hosting": {
+        "datasystem": [
+          "tryagain-95ac3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tryagain-95ac3"
+  }
+}
