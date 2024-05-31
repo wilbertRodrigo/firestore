@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Employee } from 'src/employee';
-import { EmployeeService } from '../employee.service';
+import { Employee } from '../../interface/employee';
+import { EmployeeService } from '../../services/employee.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 

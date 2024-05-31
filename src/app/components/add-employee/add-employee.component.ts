@@ -1,8 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { collection, Firestore, addDoc } from 'firebase/firestore';
-import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-add-employee',

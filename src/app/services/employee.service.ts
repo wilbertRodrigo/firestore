@@ -13,7 +13,7 @@ import {
 
 import { Observable, merge } from 'rxjs';
 
-import { Employee } from 'src/employee';
+import { Employee } from '../interface/employee';
 
 @Injectable({
   providedIn: 'root',

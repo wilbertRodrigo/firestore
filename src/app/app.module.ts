@@ -8,13 +8,21 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
-import { EmployeesComponent } from './employees/employees.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
-import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
-  declarations: [AppComponent, EmployeesComponent, AddEmployeeComponent],
+  declarations: [
+    AppComponent,
+    EmployeesComponent,
+    AddEmployeeComponent,
+    DashboardComponent,
+    RegistrationComponent,
+  ],
   imports: [
     BrowserModule,
     FormsModule,
