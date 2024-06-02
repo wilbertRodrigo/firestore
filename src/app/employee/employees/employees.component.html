@@ -1,13 +1,12 @@
 <div class="flex flex-row justify-between items-center p-4 w-full">
   <div><h1>List of Employees</h1></div>
-  <div>
+  <button (click)="toggleAddEmployeeForm()">
     <img
       src="../../assets/icons/person-plus-fill.svg"
       alt="addEmployee"
       class="w-6 h-6 fill-current cursor-pointer"
-      (click)="toggleAddEmployeeForm()"
     />
-  </div>
+  </button>
 </div>
 <table class="min-w-full divide-y divide-gray-200 mt-4 w-60">
   <thead class="bg-gray-50">
@@ -75,7 +74,7 @@
         <label for="position">Email:</label>
         <input id="position" formControlName="email" required />
       </div>
-      <!-- Add other fields as needed -->
+
       <div class="flex justify-around">
         <button
           type="submit"

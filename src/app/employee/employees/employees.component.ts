@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Employee } from '../../interface/employee';
 import { EmployeeService } from '../../services/employee.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EmployeesComponent {
   employees$: Observable<Employee[]> | undefined;
-  employee: any;
+
+  employee: Employee | undefined;
   employeeData: any;
   employeeForm!: FormGroup;
   editForm!: FormGroup;
@@ -118,5 +119,16 @@ export class EmployeesComponent {
     });
     this.showEditForm = !this.showEditForm;
     console.log(employee);
+  }
+  allEmployeesNames: string[] = [];
+
+  getAllEmployeesNames() {
+    this.employees$ = this.employeeService.getEmployees();
+    this.employees$
+      .pipe(map((employees) => employees.map((employee) => employee.name)))
+      .subscribe((names) => {
+        this.allEmployeesNames = names;
+        this.allEmployeesNames.forEach((names) => console.log(names));
+      });
   }
 }

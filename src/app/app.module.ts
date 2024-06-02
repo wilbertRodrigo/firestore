@@ -28,6 +28,7 @@ import { AdminRegistrationComponent } from './admin/admin-registration/admin-reg
     AdminLoginComponent,
     AdminRegistrationComponent,
     AdminLoginComponent,
+    AddEmployeeComponent,
   ],
   imports: [
     BrowserModule,
