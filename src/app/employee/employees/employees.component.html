@@ -1,5 +1,7 @@
-<div class="flex flex-row justify-between items-center p-4 w-full">
-  <div><h1>List of Employees</h1></div>
+<div class="flex flex-row justify-between items-center m-5">
+  <div class="flex flex-row justify-between items-center">
+    <h1>List of Employees</h1>
+  </div>
 
   <button (click)="toggleAddEmployeeForm()">
     <img
@@ -9,58 +11,58 @@
     />
   </button>
 </div>
-<!-- checking for regualrEmployees -->
+<div class="m-5">
+  <table class="divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Employee Name
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Employee Email
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let employee of employees$ | async">
+        <td class="px-6 py-4 whitespace-nowrap">{{ employee.name }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          {{ employee.email }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap flex justify-around">
+          <button
+            class="text-blue-600 hover:text-blue-900"
+            (click)="getEmployeeDetails(employee)"
+          >
+            View
+          </button>
+          <button
+            class="text-red-600 hover:text-red-900"
+            (click)="getEmployeeDetailsAndDelete(employee)"
+          >
+            Delete
+          </button>
 
-<table class="min-w-full divide-y divide-gray-200 mt-4 w-60">
-  <thead class="bg-gray-50">
-    <tr>
-      <th
-        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-      >
-        Employee Name
-      </th>
-      <th
-        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-      >
-        Employee Email
-      </th>
-      <th
-        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-      >
-        Action
-      </th>
-    </tr>
-  </thead>
-  <tbody class="bg-white divide-y divide-gray-200">
-    <tr *ngFor="let employee of employees$ | async">
-      <td class="px-6 py-4 whitespace-nowrap">{{ employee.name }}</td>
-      <td class="px-6 py-4 whitespace-nowrap">
-        {{ employee.email }}
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap flex justify-around">
-        <button
-          class="text-blue-600 hover:text-blue-900"
-          (click)="getEmployeeDetails(employee)"
-        >
-          View
-        </button>
-        <button
-          class="text-red-600 hover:text-red-900"
-          (click)="removeEmployee(employee)"
-        >
-          Delete
-        </button>
-
-        <button
-          class="text-gray-600 hover:text-gray-900"
-          (click)="getAndEditEmployeeData(employee)"
-        >
-          Update
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+          <button
+            class="text-gray-600 hover:text-gray-900"
+            (click)="getAndEditEmployeeData(employee)"
+          >
+            Update
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <div
   class="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500"
   *ngIf="successMessage"
@@ -72,38 +74,89 @@
     <span class="font-semibold text-2xl"> {{ successMessage }}</span>
   </div>
 </div>
-
 <!-- showing add employee form -->
 <div
   *ngIf="showAddEmployeeForm"
   class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
 >
-  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full m-10">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-xl w-full m-10">
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label for="name">Name:</label>
-        <input id="name" formControlName="name" required />
+      <div class="form-group mb-4">
+        <label for="name" class="block mb-2">Name:</label>
+        <input
+          id="name"
+          formControlName="name"
+          required
+          name="name"
+          class="form-control border-b-2 transition border-gray-300 focus:border-orange-300 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('name')?.valid,
+            'ng-invalid': employeeForm.get('name')?.invalid
+          }"
+        />
+        <div
+          [hidden]="
+            employeeForm.get('name')?.valid ||
+            employeeForm.get('name')?.pristine
+          "
+          class="alert text-red-500 font-semibold px-4 py-2 rounded-md w-full animate-shake-once"
+        >
+          Name is required
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="position">Email:</label>
-        <input id="position" formControlName="email" type="email" required />
+      <div class="form-group mb-4">
+        <label for="position" class="block mb-2">Email:</label>
+        <input
+          id="position"
+          formControlName="email"
+          type="email"
+          required
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('email')?.valid,
+            'ng-invalid': employeeForm.get('email')?.invalid
+          }"
+        />
+        <div
+          [hidden]="
+            employeeForm.get('email')?.valid ||
+            employeeForm.get('email')?.pristine
+          "
+          class="alert text-red-500 font-semibold px-4 py-2 rounded-md w-full animate-shake-once"
+        >
+          Email is required
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="dateOfHire">Date of hire:</label>
+      <div class="form-group mb-4">
+        <label for="dateOfHire" class="block mb-2">Date of hire:</label>
         <input
           id="dateOfHire"
           formControlName="dateOfHire"
           required
           type="date"
           [max]="today"
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('dateOfHire')?.valid,
+            'ng-invalid': employeeForm.get('dateOfHire')?.invalid
+          }"
         />
+        <div
+          [hidden]="
+            employeeForm.get('dateOfHire')?.valid ||
+            employeeForm.get('dateOfHire')?.pristine
+          "
+          class="alert text-red-500 font-semibold px-4 py-2 rounded-md w-full animate-shake-once"
+        >
+          Date is required
+        </div>
       </div>
 
       <div class="flex justify-around">
         <button
           type="submit"
           [disabled]="employeeForm.invalid"
-          class="bg-gray-500 hover:bg-gray-800 text-white font-medium py-2 px-2 rounded"
+          class="bg-gray-500 text-white font-medium py-2 px-2 rounded"
         >
           Add Employee
         </button>
@@ -119,7 +172,6 @@
   </div>
 </div>
 
-<div></div>
 <!-- viewing details -->
 <div
   *ngIf="showViewEmployee"
@@ -149,13 +201,53 @@
     </form>
   </div>
 </div>
+<!-- view and delete employee -->
+<div
+  *ngIf="showViewAndDelete"
+  class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+>
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full m-10">
+    <h2 class="text-xl font-bold mb-4">
+      Are you sure you want to delete this employee?
+    </h2>
+    <form>
+      <div class="mb-4">
+        <h4>Name : {{ employeeData.name }}</h4>
+      </div>
+      <div class="mb-4">
+        <h4>Email : {{ employeeData.email }}</h4>
+      </div>
+      <div class="mb-4">
+        <h4>Date of hire : {{ employeeData.dateOfHire }}</h4>
+      </div>
+
+      <div class="flex justify-end">
+        <button
+          type="submit"
+          class="btn btn-primary bg-blue-500 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded mr-2"
+          (click)="removeEmployee(employeeData)"
+        >
+          Delete
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary bg-gray-500 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded"
+          (click)="toggleshowViewAndDelete()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- Editing the employee -->
 <div
   *ngIf="showEditForm"
   class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
 >
   <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-    <h2 class="text-xl font-bold mb-4">Add Employee</h2>
+    <h2 class="text-xl font-bold mb-4">Edit Employee</h2>
     <form [formGroup]="editForm">
       <div class="mb-4">
         <label for="name" class="block text-gray-700">Name</label>
@@ -167,38 +259,54 @@
           required
           formControlName="edit_name"
           [value]="employeeData?.name"
+          class="form-control border-b-2 transition border-gray-300 focus:border-orange-300 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('name')?.valid,
+            'ng-invalid': employeeForm.get('name')?.invalid
+          }"
         />
       </div>
       <div class="mb-4">
         <label for="email" class="block text-gray-700">Email</label>
         <input
           type="email"
-          id="alterEgo"
+          id="email"
           class="form-control mt-1 block w-full"
           name="email"
           required
           formControlName="edit_email"
           [value]="employeeData?.email"
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('email')?.valid,
+            'ng-invalid': employeeForm.get('email')?.invalid
+          }"
         />
       </div>
       <div class="mb-4">
-        <label for="email" class="block text-gray-700">Email</label>
+        <label for="email" class="block text-gray-700">Date of hire</label>
         <input
           type="date"
-          id="alterEgo"
+          id="dateOfHire"
           class="form-control mt-1 block w-full"
-          name="email"
+          name="dateOfHire"
           required
           [max]="today"
           formControlName="edit_dateOfHire"
           [value]="employeeData?.dateOfHire"
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('dateOfHire')?.valid,
+            'ng-invalid': employeeForm.get('dateOfHire')?.invalid
+          }"
         />
       </div>
 
       <div class="flex justify-end">
         <button
           type="submit"
-          class="btn btn-primary bg-blue-500 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded mr-2"
+          class="btn btn-primary bg-blue-500 text-white font-medium py-2 px-4 rounded mr-2"
+          [disabled]="!editForm.valid"
           (click)="editEmployee(employeeData)"
         >
           Update
