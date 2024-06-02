@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EmployeesComponent {
   employees$: Observable<Employee[]> | undefined;
-
+  today: string;
   employee: Employee | undefined;
   employeeData: any;
   employeeForm!: FormGroup;
@@ -20,6 +20,7 @@ export class EmployeesComponent {
   showEditForm = false;
   showViewEmployee = false;
   showAddEmployeeForm = false;
+  successMessage: string | null = null; // Add this property
 
   toggleEditEmployeeForm() {
     this.showEditForm = !this.showEditForm;
@@ -38,17 +39,23 @@ export class EmployeesComponent {
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      dateOfHire: ['', Validators.required],
       // Add other employee fields as needed
     });
     //this form is for editing employee
     this.editForm = this.fb.group({
       edit_name: ['', Validators.required],
       edit_email: ['', [Validators.required, Validators.email]],
+      edit_dateOfHire: ['', [Validators.required]],
     });
+
+    const now = new Date();
+    this.today = now.toISOString().split('T')[0];
   }
 
   ngOnInit() {
     this.getAllEmployees();
+    this.checkRegularEmployees();
   }
   //getting all employees
   getAllEmployees() {
@@ -68,9 +75,11 @@ export class EmployeesComponent {
       this.employeeService
         .addEmployee(newEmployee)
         .then(() => {
-          console.log('Employee added successfully');
+          console.log(newEmployee);
           this.showAddEmployeeForm = !this.showAddEmployeeForm;
           this.employeeForm.reset();
+          this.successMessage = 'Success'; // Set success message
+          setTimeout(() => (this.successMessage = null), 3000); // Clear message after 5 seconds
         })
         .catch((error) => {
           console.error('Error adding employee: ', error);
@@ -98,6 +107,7 @@ export class EmployeesComponent {
     this.employeeData.id = employee.id;
     this.employeeData.name = value.edit_name;
     this.employeeData.email = value.edit_email;
+    this.employeeData.dateOfHire = value.edit_dateOfHire;
     this.employeeService
       .updateEmployee(employee)
       .then(() => {
@@ -116,10 +126,22 @@ export class EmployeesComponent {
     this.editForm.patchValue({
       edit_name: employee.name,
       edit_email: employee.email,
+      edit_dateOfHire: employee.dateOfHire,
     });
     this.showEditForm = !this.showEditForm;
     console.log(employee);
   }
+  // allEmployeesNames: string[] = [];
+
+  // getAllEmployeesNames() {
+  //   this.employees$ = this.employeeService.getEmployees();
+  //   this.employees$
+  //     .pipe(map((employees) => employees.map((employee) => employee.name)))
+  //     .subscribe((names) => {
+  //       this.allEmployeesNames = names;
+  //       this.allEmployeesNames.forEach((names) => console.log(names));
+  //     });
+  // }
   allEmployeesNames: string[] = [];
 
   getAllEmployeesNames() {
@@ -129,6 +151,42 @@ export class EmployeesComponent {
       .subscribe((names) => {
         this.allEmployeesNames = names;
         this.allEmployeesNames.forEach((names) => console.log(names));
+      });
+  }
+  regularEmployees: Employee[] = [];
+  // getAllRegularEmployees(): void {
+  //   this.employees$ = this.employeeService.getEmployees();
+  //   this.employees$
+  //     .pipe(
+  //       map((employees) =>
+  //         employees.filter(
+  //           (employee) => employee.employmentStatus === 'regular'
+  //         )
+  //       )
+  //     )
+  //     .subscribe((regularEmployees) => {
+  //       regularEmployees.forEach((employee) => console.log(employee.name));
+  //     });
+  // }
+
+  checkRegularEmployees(): void {
+    this.employees$ = this.employeeService.getEmployees();
+    this.employees$
+      .pipe(
+        map((employees) =>
+          employees.filter((employee) => {
+            const hireDate = new Date(employee.dateOfHire);
+            const currentDate = new Date();
+            const diffMonths =
+              currentDate.getMonth() -
+              hireDate.getMonth() +
+              12 * (currentDate.getFullYear() - hireDate.getFullYear());
+            return diffMonths >= 6;
+          })
+        )
+      )
+      .subscribe((regularEmployees) => {
+        this.regularEmployees = regularEmployees; // Store the regular employees
       });
   }
 }
