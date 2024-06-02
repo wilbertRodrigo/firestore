@@ -20,6 +20,7 @@ export class EmployeesComponent {
   showEditForm = false;
   showViewEmployee = false;
   showAddEmployeeForm = false;
+  showViewAndDelete = false;
   successMessage: string | null = null; // Add this property
 
   toggleEditEmployeeForm() {
@@ -29,7 +30,11 @@ export class EmployeesComponent {
     this.showViewEmployee = !this.showViewEmployee;
   }
   toggleAddEmployeeForm() {
+    this.employeeForm.reset();
     this.showAddEmployeeForm = !this.showAddEmployeeForm;
+  }
+  toggleshowViewAndDelete() {
+    this.showViewAndDelete = !this.showViewAndDelete;
   }
   constructor(
     private employeeService: EmployeeService,
@@ -68,6 +73,12 @@ export class EmployeesComponent {
     this.employeeData = employee;
     console.log(this.employeeData);
   }
+
+  getEmployeeDetailsAndDelete(employee: Employee) {
+    this.showViewAndDelete = !this.showViewAndDelete;
+    this.employeeData = employee;
+    console.log(this.employeeData);
+  }
   //adding employee
   onSubmit() {
     if (this.employeeForm.valid) {
@@ -93,6 +104,9 @@ export class EmployeesComponent {
       .then(() => {
         console.log('Deletion successful');
         // Optionally, refresh the employee list
+        this.showViewAndDelete = !this.showViewAndDelete;
+        this.successMessage = 'Success'; // Set success message
+        setTimeout(() => (this.successMessage = null), 3000);
         this.getAllEmployees();
       })
       .catch((error) => {
@@ -112,6 +126,8 @@ export class EmployeesComponent {
       .updateEmployee(employee)
       .then(() => {
         this.showEditForm = !this.showEditForm;
+        this.successMessage = 'Success'; // Set success message
+        setTimeout(() => (this.successMessage = null), 3000);
         console.log('Update successful');
         // Optionally, refresh the employee list
         this.getAllEmployees();
