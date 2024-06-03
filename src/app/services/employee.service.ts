@@ -21,6 +21,7 @@ import { Employee } from '../interface/employee';
 export class EmployeeService {
   ngOnInit() {}
   private employeesCollection: CollectionReference<Employee>;
+
   constructor(private firestore: Firestore) {
     this.employeesCollection = collection(
       this.firestore,

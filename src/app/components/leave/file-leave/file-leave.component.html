@@ -1,0 +1,36 @@
+<div class="leave-form">
+  <h2>File a Leave</h2>
+  <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="employeeId">Employee ID:</label>
+      <input id="employeeId" formControlName="employeeId" />
+      <div
+        *ngIf="
+          leaveForm.get('employeeId')?.invalid &&
+          leaveForm.get('employeeId')?.touched
+        "
+      >
+        Employee ID is required.
+      </div>
+    </div>
+
+    <div>
+      <label for="leaveType">Type of Leave:</label>
+      <select id="leaveType" formControlName="leaveType">
+        <option *ngFor="let type of leaveTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          leaveForm.get('leaveType')?.invalid &&
+          leaveForm.get('leaveType')?.touched
+        "
+      >
+        Leave type is required.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="leaveForm.invalid">Submit</button>
+  </form>
+</div>
