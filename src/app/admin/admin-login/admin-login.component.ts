@@ -14,13 +14,20 @@ import { Database, set, ref } from '@angular/fire/database';
   styleUrls: ['./admin-login.component.css'],
 })
 export class AdminLoginComponent {
-  constructor(public auth: Auth, public database: Database) {}
+  constructor(
+    public auth: Auth,
+    public database: Database,
+    public router: Router
+  ) {}
 
   loginUser(value: any) {
     signInWithEmailAndPassword(this.auth, value.email, value.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        alert('login successful');
+        this.router.navigate(['employees']);
+
         // ...
       })
       .catch((error) => {

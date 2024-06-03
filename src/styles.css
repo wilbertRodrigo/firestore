@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.form-control.ng-valid[required],
+.form-control.ng-valid.required {
+  border-color: #42a948; /* Green color for valid input */
+}
+
+/* Invalid input */
+.form-control.ng-invalid:not(form) {
+  border-color: #a94442; /* Red color for invalid input */
+}
