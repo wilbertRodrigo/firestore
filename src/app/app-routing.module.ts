@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminRegistrationComponent } from './admin/admin-registration/admin-registration.component';
 import { FileLeaveComponent } from './components/leave/file-leave/file-leave.component';
+import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave/employees-on-leave.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -17,7 +18,15 @@ const routes: Routes = [
     component: AdminRegistrationComponent,
   },
   {
-    path: 'employees/leave-application',
+    path: 'employees/leave-application/:employeeId',
+    component: FileLeaveComponent,
+  },
+  {
+    path: 'employees/employees-on-leave',
+    component: EmployeesOnLeaveComponent,
+  },
+  {
+    path: '',
     component: FileLeaveComponent,
   },
 ];

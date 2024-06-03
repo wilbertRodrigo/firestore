@@ -9,9 +9,11 @@ import {
   updateDoc,
   setDoc,
   CollectionReference,
+  DocumentReference,
+  getDoc,
 } from '@angular/fire/firestore';
 
-import { Observable, merge } from 'rxjs';
+import { Observable, merge, from } from 'rxjs';
 
 import { Employee } from '../interface/employee';
 
@@ -51,5 +53,22 @@ export class EmployeeService {
   updateEmployee(employee: Employee) {
     const employeeDocRef = doc(this.employeesCollection, employee.id);
     return updateDoc(employeeDocRef, employee);
+  }
+
+  // Getting Employee by ID
+  getEmployeeById(employeeId: string): Observable<Employee> {
+    const employeeDocRef = doc(
+      this.firestore,
+      `employees/${employeeId}`
+    ) as DocumentReference<Employee>;
+    return from(
+      getDoc(employeeDocRef).then((doc) => {
+        if (doc.exists()) {
+          return { id: doc.id, ...doc.data() } as Employee;
+        } else {
+          throw new Error('Employee not found');
+        }
+      })
+    );
   }
 }

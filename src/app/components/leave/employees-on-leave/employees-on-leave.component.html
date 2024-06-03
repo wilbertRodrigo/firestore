@@ -1,0 +1,19 @@
+<div class="employees-on-leave">
+  <h2>Employees on Leave</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Type of Leave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leave of leavesWithEmployeeDetails">
+        <td>{{ leave.employeeName }}</td>
+        <td>{{ leave.employeeDepartment }}</td>
+        <td>{{ leave.leaveType }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
