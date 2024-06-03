@@ -28,7 +28,7 @@ export class AdminRegistrationComponent {
         // });
 
         alert(`user created with ${user.email}`); //later will add router
-        this.router.navigate(['admin/login']);
+        this.router.navigate(['/employees']);
       })
       .catch((error) => {
         const errorCode = error.code;
