@@ -6,16 +6,11 @@ import {
   addDoc,
   DocumentReference,
   collectionData,
-  doc,
-  setDoc,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-
-interface Leave {
-  leave: string;
-  employeeId: string;
-  id?: string; // Add an optional id field
-}
+import { map, switchMap } from 'rxjs/operators';
+import { EmployeeService } from './employee.service'; // Ensure the path is correct
+import { Leave } from '../interface/leave';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +18,10 @@ interface Leave {
 export class LeaveService {
   private leavesCollection: CollectionReference<Leave>;
 
-  constructor(private firestore: Firestore) {
+  constructor(
+    private firestore: Firestore,
+    private employeeService: EmployeeService
+  ) {
     this.leavesCollection = collection(
       this.firestore,
       'leaves'
@@ -32,10 +30,11 @@ export class LeaveService {
 
   // Adding Leave
   addLeave(
-    leave: string,
-    employeeId: string
+    leave: boolean,
+    employeeId: string,
+    leaveType: string
   ): Promise<DocumentReference<Leave>> {
-    return addDoc(this.leavesCollection, { leave, employeeId });
+    return addDoc(this.leavesCollection, { leave, employeeId, leaveType });
   }
 
   // Getting leaves collection as an observable
@@ -47,10 +46,36 @@ export class LeaveService {
 
   // Filing a leave for an employee
   fileLeave(
-    leave: string,
-    employeeId: string
+    employeeId: string,
+    leaveType: string
   ): Observable<DocumentReference<Leave>> {
-    const leaveDocument = { leave, employeeId };
+    const leaveDocument = { leave: true, employeeId, leaveType };
     return from(addDoc(this.leavesCollection, leaveDocument));
+  }
+
+  // Getting leaves with employee details
+  getLeavesWithEmployeeDetails(): Observable<any[]> {
+    return this.getLeaves().pipe(
+      switchMap((leaves) => {
+        return this.employeeService.getEmployees().pipe(
+          map((employees) => {
+            return leaves.map((leave) => {
+              const employee = employees.find((e) => e.id === leave.employeeId);
+              return {
+                ...leave,
+                employeeName: employee?.name,
+                employeeDepartment: employee?.department,
+              };
+            });
+          })
+        );
+      })
+    );
+  }
+
+  getLeavesByEmployeeId(employeeId: string): Observable<Leave[]> {
+    return collectionData(this.leavesCollection, { idField: 'id' }).pipe(
+      map((leaves) => leaves.filter((leave) => leave.employeeId === employeeId))
+    ) as Observable<Leave[]>;
   }
 }

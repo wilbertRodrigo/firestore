@@ -25,15 +25,12 @@ export class AdminLoginComponent {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-<<<<<<< HEAD
+        // <<<<<<< HEAD
         alert('login successful');
-        this.router.navigate(['employees']);
 
-=======
-        alert('login Success!');
-        this.router.navigate(['employees']);
->>>>>>> 22ee2a8034af07e9b558691065966930432b09d5
-        // ...
+        this.router.navigate(['employees-dashboard']);
+        // >>>>>>> 22ee2a8034af07e9b558691065966930432b09d5
+        //         // ...
       })
       .catch((error) => {
         const errorCode = error.code;

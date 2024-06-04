@@ -1,0 +1,30 @@
+<div class="employees-on-leave p-4">
+  <h2 class="text-2xl font-bold mb-4">Employees on Leave</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="py-2 px-4 border-b border-gray-300">Employee Name</th>
+          <th class="py-2 px-4 border-b border-gray-300">Department</th>
+          <th class="py-2 px-4 border-b border-gray-300">Type of Leave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let leave of leavesWithEmployeeDetails"
+          class="hover:bg-gray-100"
+        >
+          <td class="py-2 px-4 border-b border-gray-300">
+            {{ leave.employeeName }}
+          </td>
+          <td class="py-2 px-4 border-b border-gray-300">
+            {{ leave.employeeDepartment }}
+          </td>
+          <td class="py-2 px-4 border-b border-gray-300">
+            {{ leave.leaveType }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

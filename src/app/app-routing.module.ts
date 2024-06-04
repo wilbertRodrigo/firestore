@@ -6,10 +6,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminRegistrationComponent } from './admin/admin-registration/admin-registration.component';
 import { FileLeaveComponent } from './components/leave/file-leave/file-leave.component';
+import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave/employees-on-leave.component';
+import { EmployeesDashboardComponent } from './employee/employees-dashboard/employees-dashboard.component';
+import { EmployeeDetailsComponent } from './employee/employee-details/employee-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'employees', component: EmployeesComponent },
+  { path: 'employees-dashboard/employees', component: EmployeesComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   {
@@ -17,8 +20,24 @@ const routes: Routes = [
     component: AdminRegistrationComponent,
   },
   {
-    path: 'employees/leave-application',
+    path: 'employees/leave-application/:employeeId',
     component: FileLeaveComponent,
+  },
+  {
+    path: 'employees/employees-on-leave',
+    component: EmployeesOnLeaveComponent,
+  },
+  {
+    path: 'employees-dashboard',
+    component: EmployeesDashboardComponent,
+  },
+  {
+    path: '',
+    component: FileLeaveComponent,
+  },
+  {
+    path: 'employees-dashboard/details',
+    component: EmployeeDetailsComponent,
   },
 ];
 
