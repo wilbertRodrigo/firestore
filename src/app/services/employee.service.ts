@@ -71,4 +71,12 @@ export class EmployeeService {
       })
     );
   }
+
+  updateEmployeeLeaveStatus(
+    employeeId: string,
+    leaveStatus: boolean
+  ): Promise<void> {
+    const employeeDocRef = doc(this.employeesCollection, employeeId);
+    return updateDoc(employeeDocRef, { leave: leaveStatus });
+  }
 }

@@ -5,4 +5,5 @@ export interface Employee {
   department: string;
   employmentStatus: string;
   dateOfHire: string;
+  leave: boolean;
 }

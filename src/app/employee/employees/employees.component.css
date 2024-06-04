@@ -15,3 +15,10 @@
 .animate-shake-once {
   animation: shake-once 0.5s ease-in-out;
 }
+.bg-red-500 {
+  background-color: #f56565;
+}
+
+.bg-green-500 {
+  background-color: #48bb78;
+}

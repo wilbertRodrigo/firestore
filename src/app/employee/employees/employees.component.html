@@ -33,11 +33,15 @@
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr *ngFor="let employee of employees$ | async">
+      <tr
+        *ngFor="let employee of employees"
+        [ngClass]="{
+          'bg-red-500': employee.leave,
+          'bg-green-500': !employee.leave
+        }"
+      >
         <td class="px-6 py-4 whitespace-nowrap">{{ employee.name }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          {{ employee.email }}
-        </td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ employee.email }}</td>
         <td class="px-6 py-4 whitespace-nowrap flex justify-around">
           <button
             class="text-blue-600 hover:text-blue-900"
@@ -49,16 +53,15 @@
             class="text-red-600 hover:text-red-900"
             (click)="getEmployeeDetailsAndDelete(employee)"
           >
-            Delete</button
-          >s
-
+            Delete
+          </button>
           <button
             class="text-gray-600 hover:text-gray-900"
             (click)="getAndEditEmployeeData(employee)"
           >
             Update
           </button>
-          <a [routerLink]="getEmployeeRoute(employeeData)">
+          <a [routerLink]="['/employees/leave-application', employee.id]">
             <button class="text-gray-600 hover:text-gray-900">File</button>
           </a>
         </td>
@@ -66,6 +69,8 @@
     </tbody>
   </table>
 </div>
+
+<!-- successMessage -->
 <div
   class="fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500"
   *ngIf="successMessage"
@@ -154,6 +159,33 @@
           Date is required
         </div>
       </div>
+      <div class="form-group mb-4">
+        <label for="department" class="block mb-2">Department:</label>
+        <select
+          id="department"
+          formControlName="department"
+          required
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': employeeForm.get('department')?.valid,
+            'ng-invalid': employeeForm.get('department')?.invalid
+          }"
+        >
+          <option value="" disabled selected>Select Department</option>
+          <option *ngFor="let department of departments" [value]="department">
+            {{ department }}
+          </option>
+        </select>
+        <div
+          [hidden]="
+            employeeForm.get('department')?.valid ||
+            employeeForm.get('department')?.pristine
+          "
+          class="alert text-red-500 font-semibold px-4 py-2 rounded-md w-full animate-shake-once"
+        >
+          Department is required
+        </div>
+      </div>
 
       <div class="flex justify-around">
         <button
@@ -174,7 +206,6 @@
     </form>
   </div>
 </div>
-
 <!-- viewing details -->
 <div
   *ngIf="showViewEmployee"
@@ -191,6 +222,9 @@
       </div>
       <div class="mb-4">
         <h4>Date of hire : {{ employeeData.dateOfHire }}</h4>
+      </div>
+      <div class="mb-4">
+        <h4>Department : {{ employeeData.department }}</h4>
       </div>
       <div class="flex justify-end">
         <button
@@ -222,6 +256,9 @@
       </div>
       <div class="mb-4">
         <h4>Date of hire : {{ employeeData.dateOfHire }}</h4>
+      </div>
+      <div class="mb-4">
+        <h4>Department: {{ employeeData.department }}</h4>
       </div>
 
       <div class="flex justify-end">
@@ -303,6 +340,26 @@
             'ng-invalid': employeeForm.get('dateOfHire')?.invalid
           }"
         />
+      </div>
+      <div class="mb-4">
+        <label for="edit_department" class="block text-gray-700"
+          >Department</label
+        >
+        <select
+          id="edit_department"
+          formControlName="edit_department"
+          required
+          class="form-control border-b-2 transition border-gray-300 focus:border-blue-500 focus:scale-110 w-full"
+          [ngClass]="{
+            'ng-valid': editForm.get('edit_department')?.valid,
+            'ng-invalid': editForm.get('edit_department')?.invalid
+          }"
+        >
+          <option value="" disabled selected>Select Department</option>
+          <option *ngFor="let department of departments" [value]="department">
+            {{ department }}
+          </option>
+        </select>
       </div>
 
       <div class="flex justify-end">

@@ -12,7 +12,7 @@ import { Employee } from 'src/app/interface/employee';
 })
 export class FileLeaveComponent implements OnInit {
   leaveForm: FormGroup;
-  employee: Employee | undefined; // Adjust the type based on your Employee model
+  employee: Employee | undefined;
   leaveTypes = ['Emergency', 'Sick Leave', 'Maternity', 'Vacation Leave'];
 
   constructor(
@@ -44,14 +44,37 @@ export class FileLeaveComponent implements OnInit {
         this.leaveService.fileLeave(employeeId, leaveType).subscribe({
           next: (result) => {
             console.log('Leave filed successfully', result);
-            this.leaveForm.reset();
-            this.router.navigate(['employees/employees-on-leave']);
+            this.employeeService
+              .updateEmployeeLeaveStatus(employeeId, true)
+              .then(() => {
+                console.log('Employee leave status updated to true');
+                this.leaveForm.reset();
+                this.router.navigate(['employees-dashboard/employees']);
+              })
+              .catch((error) => {
+                console.error('Error updating employee leave status', error);
+              });
           },
           error: (err) => {
             console.error('Error filing leave', err);
           },
         });
       }
+    }
+  }
+
+  toggleLeaveStatus() {
+    const employeeId = this.employee?.id;
+    if (employeeId) {
+      this.employeeService
+        .updateEmployeeLeaveStatus(employeeId, false)
+        .then(() => {
+          console.log('Employee leave status updated to false');
+          this.router.navigate(['employees-dashboard/employees']);
+        })
+        .catch((error) => {
+          console.error('Error updating employee leave status', error);
+        });
     }
   }
 }

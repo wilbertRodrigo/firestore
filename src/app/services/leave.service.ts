@@ -4,8 +4,10 @@ import {
   collection,
   CollectionReference,
   addDoc,
-  DocumentReference,
   collectionData,
+  query,
+  where,
+  DocumentReference,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -33,8 +35,9 @@ export class LeaveService {
     leave: boolean,
     employeeId: string,
     leaveType: string
-  ): Promise<DocumentReference<Leave>> {
-    return addDoc(this.leavesCollection, { leave, employeeId, leaveType });
+  ): Observable<DocumentReference<Leave>> {
+    const leaveDocument = { leave, employeeId, leaveType };
+    return from(addDoc(this.leavesCollection, leaveDocument));
   }
 
   // Getting leaves collection as an observable
@@ -73,9 +76,15 @@ export class LeaveService {
     );
   }
 
+  // Getting leaves by employee ID
   getLeavesByEmployeeId(employeeId: string): Observable<Leave[]> {
-    return collectionData(this.leavesCollection, { idField: 'id' }).pipe(
-      map((leaves) => leaves.filter((leave) => leave.employeeId === employeeId))
-    ) as Observable<Leave[]>;
+    const leavesByEmployeeQuery = query(
+      this.leavesCollection,
+      where('employeeId', '==', employeeId)
+    );
+
+    return collectionData(leavesByEmployeeQuery, {
+      idField: 'id',
+    }) as Observable<Leave[]>;
   }
 }
