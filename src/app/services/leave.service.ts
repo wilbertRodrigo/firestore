@@ -10,13 +10,7 @@ import {
 import { Observable, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EmployeeService } from './employee.service'; // Ensure the path is correct
-
-interface Leave {
-  leave: boolean;
-  employeeId: string;
-  leaveType: string;
-  id?: string; // Optional id field
-}
+import { Leave } from '../interface/leave';
 
 @Injectable({
   providedIn: 'root',
@@ -77,5 +71,11 @@ export class LeaveService {
         );
       })
     );
+  }
+
+  getLeavesByEmployeeId(employeeId: string): Observable<Leave[]> {
+    return collectionData(this.leavesCollection, { idField: 'id' }).pipe(
+      map((leaves) => leaves.filter((leave) => leave.employeeId === employeeId))
+    ) as Observable<Leave[]>;
   }
 }

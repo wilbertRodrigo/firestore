@@ -27,11 +27,8 @@ export class AdminLoginComponent {
         const user = userCredential.user;
         // <<<<<<< HEAD
         alert('login successful');
-        this.router.navigate(['employees']);
 
-        // =======
-        alert('login Success!');
-        this.router.navigate(['employees']);
+        this.router.navigate(['employees-dashboard']);
         // >>>>>>> 22ee2a8034af07e9b558691065966930432b09d5
         //         // ...
       })

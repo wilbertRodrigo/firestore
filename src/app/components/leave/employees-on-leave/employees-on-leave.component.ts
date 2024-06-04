@@ -14,7 +14,8 @@ export class EmployeesOnLeaveComponent {
     this.leaveService.getLeavesWithEmployeeDetails().subscribe({
       next: (leaves) => {
         // Filter out employees who are not currently on leave
-        this.leavesWithEmployeeDetails = leaves.filter((leave) => leave.leave);
+        this.leavesWithEmployeeDetails = leaves.filter((leave) => leave);
+        console.log(leaves);
       },
       error: (err) => {
         console.error('Error fetching leaves with employee details', err);

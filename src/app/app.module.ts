@@ -19,6 +19,10 @@ import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminRegistrationComponent } from './admin/admin-registration/admin-registration.component';
 import { FileLeaveComponent } from './components/leave/file-leave/file-leave.component';
 import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave/employees-on-leave.component';
+import { EmployeeDetailsComponent } from './employee/employee-details/employee-details.component';
+
+import { EmployeesDashboardComponent } from './employee/employees-dashboard/employees-dashboard.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave
     AdminRegistrationComponent,
     AdminLoginComponent,
     FileLeaveComponent,
+    EmployeeDetailsComponent,
+    EmployeesDashboardComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,

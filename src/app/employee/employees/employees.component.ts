@@ -57,6 +57,10 @@ export class EmployeesComponent {
     const now = new Date();
     this.today = now.toISOString().split('T')[0];
   }
+  //use property binding
+  getEmployeeRoute(employee: Employee): string {
+    return `/employees/leave-application/${employee.id}`;
+  }
 
   ngOnInit() {
     this.getAllEmployees();
