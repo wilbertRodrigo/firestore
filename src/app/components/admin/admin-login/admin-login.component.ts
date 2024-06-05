@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NgOptimizedImage } from '@angular/common';
 import {
   Auth,
   createUserWithEmailAndPassword,

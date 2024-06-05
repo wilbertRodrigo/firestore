@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EmplooyeeDetailsDialogComponent } from './modal/emplooyee-details-dialog/emplooyee-details-dialog.component';
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     EmployeesDashboardComponent,
     EmplooyeeDetailsDialogComponent,
     ConfirmationComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
