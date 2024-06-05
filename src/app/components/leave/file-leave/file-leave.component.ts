@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interface/employee';
 import { Leave } from 'src/app/interface/leave';
 import { TypesOfLeave } from '../../../interface/typesOfLeave';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-file-leave',
@@ -22,7 +23,8 @@ export class FileLeaveComponent implements OnInit {
     private leaveService: LeaveService,
     private employeeService: EmployeeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: NotificationService
   ) {
     this.leaveForm = this.fb.group({
       leaveType: ['', Validators.required],
@@ -59,7 +61,8 @@ export class FileLeaveComponent implements OnInit {
               next: () => {
                 console.log('Leave filed and credit added successfully');
                 this.leaveForm.reset();
-                this.router.navigate(['employees-dashboard/employees']);
+                this.toastr.showSuccess('Leave filed successfully', 'Success');
+                this.router.navigate(['/dashboard/employees']);
               },
               error: (err) => {
                 console.error('Error adding leave credit', err);
@@ -80,7 +83,7 @@ export class FileLeaveComponent implements OnInit {
         .updateEmployeeLeaveStatus(employeeId, false)
         .then(() => {
           console.log('Employee leave status updated to false');
-          this.router.navigate(['employees-dashboard/employees']);
+          this.router.navigate(['/dashboard/employees']);
         })
         .catch((error) => {
           console.error('Error updating employee leave status', error);

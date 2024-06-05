@@ -21,30 +21,13 @@ export class AdminLoginComponent {
     public router: Router
   ) {}
 
-  // loginUser(value: any) {
-  //   signInWithEmailAndPassword(this.auth, value.email, value.password)
-  //     .then((userCredential) => {
-  //       // Signed in
-  //       const user = userCredential.user;
-  //       // <<<<<<< HEAD
-  //       alert('login successful');
-
-  //       this.router.navigate(['employees-dashboard']);
-  //       // >>>>>>> 22ee2a8034af07e9b558691065966930432b09d5
-  //       //         // ...
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //     });
-  // }
   loginUser(value: any) {
     signInWithEmailAndPassword(this.auth, value.email, value.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         alert('login successful');
-        this.router.navigate(['employees-dashboard']);
+        this.router.navigate(['dashboard']);
       })
       .catch((error) => {
         const errorCode = error.code;
