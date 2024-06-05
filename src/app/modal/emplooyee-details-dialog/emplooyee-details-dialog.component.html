@@ -1,4 +1,4 @@
-<!-- employee-details-dialog.component.html -->
+<!-- emplooyee-details-dialog.component.html -->
 <div
   class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75"
 >
@@ -12,12 +12,20 @@
       <ng-container
         *ngFor="let leaveType of getLeavesByType(data.leaves) | keyvalue"
       >
-        <h4 class="text-lg mt-2">{{ leaveType.key }}:</h4>
+        <h4 class="text-lg mt-2">
+          <strong>{{ leaveType.key }}:</strong>
+        </h4>
+        <p>
+          Total Accumulated Days:
+          <span id="highlight">{{ getTotalLeaveDays(leaveType.value) }}</span>
+        </p>
+
         <ul *ngFor="let leave of leaveType.value" class="list-disc ml-5">
           <li class="text-gray-500">
             From: {{ leave.from | date }} To: {{ leave.to | date }}
           </li>
         </ul>
+        <!-- Display total accumulated leave days for each type of leave -->
       </ng-container>
       <div class="flex justify-between mb-4">
         <button

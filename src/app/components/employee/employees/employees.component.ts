@@ -3,6 +3,7 @@ import { Employee } from '../../../interface/employee';
 import { EmployeeService } from '../../../services/employee.service';
 import { Observable, map } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-employees',
@@ -41,7 +42,8 @@ export class EmployeesComponent {
   }
   constructor(
     private employeeService: EmployeeService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: NotificationService
   ) {
     //this form is for adding employees
     this.employeeForm = this.fb.group({
@@ -96,11 +98,10 @@ export class EmployeesComponent {
           console.log(newEmployee);
           this.showAddEmployeeForm = !this.showAddEmployeeForm;
           this.employeeForm.reset();
-          this.successMessage = 'Success'; // Set success message
-          setTimeout(() => (this.successMessage = null), 3000); // Clear message after 5 seconds
+          this.toastr.showSuccess('Employee added successfully', 'Success');
         })
-        .catch((error) => {
-          console.error('Error adding employee: ', error);
+        .catch(() => {
+          this.toastr.showError('Error adding employee', 'Error');
         });
     }
   }
@@ -112,12 +113,10 @@ export class EmployeesComponent {
         console.log('Deletion successful');
         // Optionally, refresh the employee list
         this.showViewAndDelete = !this.showViewAndDelete;
-        this.successMessage = 'Success'; // Set success message
-        setTimeout(() => (this.successMessage = null), 3000);
-        this.getEmployees();
+        this.toastr.showSuccess('Employee deleted successfully', 'Success');
       })
-      .catch((error) => {
-        console.error('Error deleting employee:', error);
+      .catch(() => {
+        this.toastr.showError('Error deleting employee', 'Error');
       });
   }
 

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+// Import ToastrModule and ToastrService
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -49,6 +52,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppRoutingModule,
     MatDialogModule,
 
+    // Import and provide ToastrModule.forRoot() here
+    ToastrModule.forRoot(),
+
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -63,7 +69,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     }),
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    // Provide ToastrService here
+    ToastrService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
