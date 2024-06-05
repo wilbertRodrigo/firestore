@@ -32,6 +32,48 @@
       </div>
     </div>
 
+    <div class="mb-4">
+      <label for="leaveStartDate" class="block text-gray-700 mb-2"
+        >Start Date:</label
+      >
+      <input
+        type="date"
+        id="leaveStartDate"
+        formControlName="leaveStartDate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+      />
+      <div
+        *ngIf="
+          leaveForm.get('leaveStartDate')?.invalid &&
+          leaveForm.get('leaveStartDate')?.touched
+        "
+        class="text-red-500 text-sm mt-2"
+      >
+        Start date is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="leaveEndDate" class="block text-gray-700 mb-2"
+        >End Date:</label
+      >
+      <input
+        type="date"
+        id="leaveEndDate"
+        formControlName="leaveEndDate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+      />
+      <div
+        *ngIf="
+          leaveForm.get('leaveEndDate')?.invalid &&
+          leaveForm.get('leaveEndDate')?.touched
+        "
+        class="text-red-500 text-sm mt-2"
+      >
+        End date is required.
+      </div>
+    </div>
+
     <button
       type="submit"
       [disabled]="leaveForm.invalid"

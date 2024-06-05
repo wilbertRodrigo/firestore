@@ -33,13 +33,7 @@
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr
-        *ngFor="let employee of employees"
-        [ngClass]="{
-          'bg-red-500': employee.leave,
-          'bg-green-500': !employee.leave
-        }"
-      >
+      <tr *ngFor="let employee of employees">
         <td class="px-6 py-4 whitespace-nowrap">{{ employee.name }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ employee.email }}</td>
         <td class="px-6 py-4 whitespace-nowrap flex justify-around">

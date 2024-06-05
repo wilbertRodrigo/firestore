@@ -10,16 +10,5 @@ export class EmployeesOnLeaveComponent {
 
   constructor(private leaveService: LeaveService) {}
 
-  ngOnInit(): void {
-    this.leaveService.getLeavesWithEmployeeDetails().subscribe({
-      next: (leaves) => {
-        // Filter out employees who are not currently on leave
-        this.leavesWithEmployeeDetails = leaves.filter((leave) => leave);
-        console.log(leaves);
-      },
-      error: (err) => {
-        console.error('Error fetching leaves with employee details', err);
-      },
-    });
-  }
+  ngOnInit(): void {}
 }

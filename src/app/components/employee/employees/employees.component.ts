@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Employee } from '../../interface/employee';
-import { EmployeeService } from '../../services/employee.service';
+import { Employee } from '../../../interface/employee';
+import { EmployeeService } from '../../../services/employee.service';
 import { Observable, map } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -73,15 +73,12 @@ export class EmployeesComponent {
       this.employees = employees;
     });
   }
-  filterEmployeesOnLeave(): void {
-    this.employeesOnLeave = this.employees.filter((employee) => employee.leave);
-  }
 
   //getting specific employee detail
   getEmployeeDetails(employee: Employee) {
     this.showViewEmployee = !this.showViewEmployee;
     this.employeeData = employee;
-    console.log(this.employeeData.leave);
+    console.log(this.employeeData.leaves);
   }
 
   getEmployeeDetailsAndDelete(employee: Employee) {
@@ -177,8 +174,7 @@ export class EmployeesComponent {
     this.employees$
       .pipe(map((employees) => employees.map((employee) => employee.name)))
       .subscribe((names) => {
-        this.allEmployeesNames = names;
-        this.allEmployeesNames.forEach((names) => console.log(names));
+        console.log(names);
       });
   }
   regularEmployees: Employee[] = [];

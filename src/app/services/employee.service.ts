@@ -77,6 +77,6 @@ export class EmployeeService {
     leaveStatus: boolean
   ): Promise<void> {
     const employeeDocRef = doc(this.employeesCollection, employeeId);
-    return updateDoc(employeeDocRef, { leave: leaveStatus });
+    return updateDoc(employeeDocRef, {});
   }
 }

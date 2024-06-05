@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EmployeesComponent } from './employee/employees/employees.component';
+import { EmployeesComponent } from './components/employee/employees/employees.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
-import { AdminRegistrationComponent } from './admin/admin-registration/admin-registration.component';
+import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
+import { AdminRegistrationComponent } from './components/admin/admin-registration/admin-registration.component';
 import { FileLeaveComponent } from './components/leave/file-leave/file-leave.component';
 import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave/employees-on-leave.component';
-import { EmployeesDashboardComponent } from './employee/employees-dashboard/employees-dashboard.component';
-import { EmployeeDetailsComponent } from './employee/employee-details/employee-details.component';
+import { EmployeesDashboardComponent } from './components/employee/employees-dashboard/employees-dashboard.component';
+import { EmployeeDetailsComponent } from './components/employee/employee-details/employee-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

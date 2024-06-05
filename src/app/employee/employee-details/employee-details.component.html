@@ -1,8 +1,0 @@
-<div *ngFor="let departmentGroup of employeesOnLeave$ | async">
-  <h3>{{ departmentGroup.department }}</h3>
-  <ul>
-    <li *ngFor="let employee of departmentGroup.employees">
-      {{ employee.name }}
-    </li>
-  </ul>
-</div>
