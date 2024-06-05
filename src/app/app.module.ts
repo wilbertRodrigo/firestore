@@ -15,13 +15,13 @@ import { EmployeesComponent } from './components/employee/employees/employees.co
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 import { RegistrationComponent } from './components/admin/registration/registration.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { AdminRegistrationComponent } from './components/admin/admin-registration/admin-registration.component';
 import { FileLeaveComponent } from './components/leave/file-leave/file-leave.component';
-import { EmployeesOnLeaveComponent } from './components/leave/employees-on-leave/employees-on-leave.component';
+
 import { EmployeeDetailsComponent } from './components/employee/employee-details/employee-details.component';
 import { EmployeesDashboardComponent } from './components/employee/employees-dashboard/employees-dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,8 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     AppComponent,
     EmployeesComponent,
-    EmployeesOnLeaveComponent,
-    DashboardComponent,
+
     RegistrationComponent,
     AdminLoginComponent,
     AdminRegistrationComponent,

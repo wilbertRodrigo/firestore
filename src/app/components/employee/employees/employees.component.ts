@@ -67,7 +67,6 @@ export class EmployeesComponent {
 
   ngOnInit() {
     this.getEmployees();
-    this.checkRegularEmployees();
   }
   //getting all employees
   getEmployees(): void {
@@ -155,17 +154,7 @@ export class EmployeesComponent {
     this.showEditForm = !this.showEditForm;
     console.log(employee);
   }
-  // allEmployeesNames: string[] = [];
 
-  // getAllEmployeesNames() {
-  //   this.employees$ = this.employeeService.getEmployees();
-  //   this.employees$
-  //     .pipe(map((employees) => employees.map((employee) => employee.name)))
-  //     .subscribe((names) => {
-  //       this.allEmployeesNames = names;
-  //       this.allEmployeesNames.forEach((names) => console.log(names));
-  //     });
-  // }
   allEmployeesNames: string[] = [];
 
   getAllEmployeesNames() {
@@ -174,42 +163,6 @@ export class EmployeesComponent {
       .pipe(map((employees) => employees.map((employee) => employee.name)))
       .subscribe((names) => {
         console.log(names);
-      });
-  }
-  regularEmployees: Employee[] = [];
-  // getAllRegularEmployees(): void {
-  //   this.employees$ = this.employeeService.getEmployees();
-  //   this.employees$
-  //     .pipe(
-  //       map((employees) =>
-  //         employees.filter(
-  //           (employee) => employee.employmentStatus === 'regular'
-  //         )
-  //       )
-  //     )
-  //     .subscribe((regularEmployees) => {
-  //       regularEmployees.forEach((employee) => console.log(employee.name));
-  //     });
-  // }
-
-  checkRegularEmployees(): void {
-    this.employees$ = this.employeeService.getEmployees();
-    this.employees$
-      .pipe(
-        map((employees) =>
-          employees.filter((employee) => {
-            const hireDate = new Date(employee.dateOfHire);
-            const currentDate = new Date();
-            const diffMonths =
-              currentDate.getMonth() -
-              hireDate.getMonth() +
-              12 * (currentDate.getFullYear() - hireDate.getFullYear());
-            return diffMonths >= 6;
-          })
-        )
-      )
-      .subscribe((regularEmployees) => {
-        this.regularEmployees = regularEmployees; // Store the regular employees
       });
   }
 }
