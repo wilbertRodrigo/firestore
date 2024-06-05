@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Employee } from '../../interface/employee';
-import { EmployeeService } from '../../services/employee.service';
+import { Employee } from '../../../interface/employee';
+import { EmployeeService } from '../../../services/employee.service';
 import { Observable, map } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-employees',
@@ -11,8 +12,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EmployeesComponent {
   employees$: Observable<Employee[]> | undefined;
+  employeesOnLeave: Employee[] = [];
   today: string;
   employee: Employee | undefined;
+  employees: Employee[] = [];
   employeeData: any;
   employeeForm!: FormGroup;
   editForm!: FormGroup;
@@ -22,6 +25,7 @@ export class EmployeesComponent {
   showAddEmployeeForm = false;
   showViewAndDelete = false;
   successMessage: string | null = null; // Add this property
+  departments = ['HR', 'IT', 'Finance', 'Marketing', 'Sales'];
 
   toggleEditEmployeeForm() {
     this.showEditForm = !this.showEditForm;
@@ -38,13 +42,15 @@ export class EmployeesComponent {
   }
   constructor(
     private employeeService: EmployeeService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: NotificationService
   ) {
     //this form is for adding employees
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
       dateOfHire: ['', Validators.required],
+      department: ['', Validators.required],
       // Add other employee fields as needed
     });
     //this form is for editing employee
@@ -52,30 +58,29 @@ export class EmployeesComponent {
       edit_name: ['', Validators.required],
       edit_email: ['', [Validators.required, Validators.email]],
       edit_dateOfHire: ['', [Validators.required]],
+      edit_department: ['', Validators.required],
     });
 
     const now = new Date();
     this.today = now.toISOString().split('T')[0];
   }
-  //use property binding
-  getEmployeeRoute(employee: Employee): string {
-    return `/employees/leave-application/${employee.id}`;
-  }
 
   ngOnInit() {
-    this.getAllEmployees();
+    this.getEmployees();
     this.checkRegularEmployees();
   }
   //getting all employees
-  getAllEmployees() {
-    this.employees$ = this.employeeService.getEmployees();
+  getEmployees(): void {
+    this.employeeService.getEmployees().subscribe((employees) => {
+      this.employees = employees;
+    });
   }
 
   //getting specific employee detail
   getEmployeeDetails(employee: Employee) {
     this.showViewEmployee = !this.showViewEmployee;
     this.employeeData = employee;
-    console.log(this.employeeData);
+    console.log(this.employeeData.leaves);
   }
 
   getEmployeeDetailsAndDelete(employee: Employee) {
@@ -93,11 +98,10 @@ export class EmployeesComponent {
           console.log(newEmployee);
           this.showAddEmployeeForm = !this.showAddEmployeeForm;
           this.employeeForm.reset();
-          this.successMessage = 'Success'; // Set success message
-          setTimeout(() => (this.successMessage = null), 3000); // Clear message after 5 seconds
+          this.toastr.showSuccess('Employee added successfully', 'Success');
         })
-        .catch((error) => {
-          console.error('Error adding employee: ', error);
+        .catch(() => {
+          this.toastr.showError('Error adding employee', 'Error');
         });
     }
   }
@@ -109,12 +113,10 @@ export class EmployeesComponent {
         console.log('Deletion successful');
         // Optionally, refresh the employee list
         this.showViewAndDelete = !this.showViewAndDelete;
-        this.successMessage = 'Success'; // Set success message
-        setTimeout(() => (this.successMessage = null), 3000);
-        this.getAllEmployees();
+        this.toastr.showSuccess('Employee deleted successfully', 'Success');
       })
-      .catch((error) => {
-        console.error('Error deleting employee:', error);
+      .catch(() => {
+        this.toastr.showError('Error deleting employee', 'Error');
       });
   }
 
@@ -126,6 +128,7 @@ export class EmployeesComponent {
     this.employeeData.name = value.edit_name;
     this.employeeData.email = value.edit_email;
     this.employeeData.dateOfHire = value.edit_dateOfHire;
+    this.employeeData.department = value.edit_department;
     this.employeeService
       .updateEmployee(employee)
       .then(() => {
@@ -134,7 +137,7 @@ export class EmployeesComponent {
         setTimeout(() => (this.successMessage = null), 3000);
         console.log('Update successful');
         // Optionally, refresh the employee list
-        this.getAllEmployees();
+        this.getEmployees();
       })
       .catch((error) => {
         console.error(error);
@@ -147,6 +150,7 @@ export class EmployeesComponent {
       edit_name: employee.name,
       edit_email: employee.email,
       edit_dateOfHire: employee.dateOfHire,
+      edit_department: employee.department,
     });
     this.showEditForm = !this.showEditForm;
     console.log(employee);
@@ -169,8 +173,7 @@ export class EmployeesComponent {
     this.employees$
       .pipe(map((employees) => employees.map((employee) => employee.name)))
       .subscribe((names) => {
-        this.allEmployeesNames = names;
-        this.allEmployeesNames.forEach((names) => console.log(names));
+        console.log(names);
       });
   }
   regularEmployees: Employee[] = [];
