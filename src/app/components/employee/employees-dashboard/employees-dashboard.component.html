@@ -1,6 +1,53 @@
-<p>dashboard works!</p>
+<div>
+  <nav class="sticky top-0 bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <div class="flex-shrink-0 flex items-center">
+            <!-- Your logo or company name here -->
+          </div>
+          <div class="hidden sm:-my-px sm:ml-6 sm:flex">
+            <a
+              routerLink="/dashboard/employees"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+              >Manage Employees</a
+            >
+            <a
+              routerLink="/dashboard/summary"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+              >Summary</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-<nav>
-  <a routerLink="employees">Manage Employees</a>
-  <a routerLink="details">Summary</a>
-</nav>
+  <div class="mt-16">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<div class="flex items-center justify-center">
+  <!-- Content -->
+  <div class="max-w-screen-xl flex items-center justify-center px-8">
+    <div
+      class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-x-8"
+    >
+      <p class="text-lg font-medium text-center mx-8 lg:text-xl lg:max-w-md">
+        Introducing our Leave Management System: Streamline HR operations,
+        automate leave requests, and track balances seamlessly. With
+        user-friendly self-service portals and real-time reporting, it enhances
+        productivity and promotes work-life balance
+      </p>
+      <img
+        src="https://images.saasworthy.com/blog_latest/wp-content/uploads/2021/07/2-13-1024x538.png"
+        alt=""
+        class="min-w-40 h-auto lg:w-2/3 rounded-lg shadow-lg"
+      />
+    </div>
+  </div>
+</div>

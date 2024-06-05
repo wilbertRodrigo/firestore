@@ -10,8 +10,8 @@ import { EmployeesDashboardComponent } from './components/employee/employees-das
 import { EmployeeDetailsComponent } from './components/employee/employee-details/employee-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
-  { path: 'employees-dashboard/employees', component: EmployeesComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard/employees', component: EmployeesComponent },
 
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/registration', component: AdminRegistrationComponent },
@@ -20,11 +20,8 @@ const routes: Routes = [
     component: FileLeaveComponent,
   },
   { path: 'dashboard', component: EmployeesDashboardComponent },
-  { path: 'employees-dashboard/details', component: EmployeeDetailsComponent },
-  {
-    path: 'employees-dashboard',
-    component: EmployeesDashboardComponent,
-  },
+  { path: 'dashboard/summary', component: EmployeeDetailsComponent },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 

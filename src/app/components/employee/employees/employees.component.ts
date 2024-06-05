@@ -132,8 +132,7 @@ export class EmployeesComponent {
       .updateEmployee(employee)
       .then(() => {
         this.showEditForm = !this.showEditForm;
-        this.successMessage = 'Success'; // Set success message
-        setTimeout(() => (this.successMessage = null), 3000);
+        this.toastr.showSuccess('Employee updated successfully', 'Success');
         console.log('Update successful');
         // Optionally, refresh the employee list
         this.getEmployees();
