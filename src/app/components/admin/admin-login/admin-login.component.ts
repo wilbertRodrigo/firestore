@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { Data, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NgOptimizedImage } from '@angular/common';
-import {
-  Auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from '@angular/fire/auth';
-import { Database, set, ref } from '@angular/fire/database';
+import { Router } from '@angular/router';
+import { Auth } from '@angular/fire/auth';
+import { Database } from '@angular/fire/database';
+import { NotificationService } from 'src/app/services/notification.service';
+
 @Component({
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
@@ -18,20 +14,47 @@ export class AdminLoginComponent {
   constructor(
     public auth: Auth,
     public database: Database,
-    public router: Router
+    public router: Router,
+    public toastr: NotificationService,
+    private authService: AuthService
   ) {}
 
-  loginUser(value: any) {
-    signInWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert('login successful');
+  email: string = '';
+  password: string = '';
+
+  onSubmit() {
+    if (this.email === '' || this.password === '') {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    this.authService
+      .loginWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        this.toastr.showSuccess('Login Successful', 'Success');
+        this.router.navigate(['dashboard']);
+        this.resetForm();
+      })
+      .catch(() => {
+        this.toastr.showError('Error Logging In', 'Error');
+        this.resetForm();
+      });
+  }
+
+  resetForm() {
+    this.email = '';
+    this.password = '';
+  }
+
+  signInWithGoogle() {
+    this.authService
+      .googleLogin()
+      .then(() => {
+        this.toastr.showSuccess('Login Successful', 'Success');
         this.router.navigate(['dashboard']);
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+      .catch(() => {
+        this.toastr.showError('Error Logging In', 'Error');
       });
   }
 }

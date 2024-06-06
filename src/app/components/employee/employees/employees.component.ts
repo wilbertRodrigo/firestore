@@ -134,8 +134,6 @@ export class EmployeesComponent {
         this.showEditForm = !this.showEditForm;
         this.toastr.showSuccess('Employee updated successfully', 'Success');
         console.log('Update successful');
-        // Optionally, refresh the employee list
-        this.getEmployees();
       })
       .catch((error) => {
         console.error(error);

@@ -11,11 +11,24 @@ export class NotificationService {
     this.toastr.success(botMsg, topMsg, {
       timeOut: 3000,
       tapToDismiss: true,
-      positionClass: 'toast-top-center',
     });
   }
 
   showError(topMsg: string, botMsg: string) {
+    this.toastr.error(botMsg, topMsg, {
+      timeOut: 3000,
+      tapToDismiss: true,
+    });
+  }
+
+  succes(topMsg: string, botMsg: string) {
+    this.toastr.success(botMsg, topMsg, {
+      timeOut: 3000,
+      tapToDismiss: true,
+    });
+  }
+
+  error(topMsg: string, botMsg: string) {
     this.toastr.error(botMsg, topMsg, {
       timeOut: 3000,
       tapToDismiss: true,
