@@ -8,20 +8,26 @@ import { FileLeaveComponent } from './components/leave/file-leave/file-leave.com
 import { PageNotFoundComponent } from 'src/app/page-not-found/page-not-found.component';
 import { EmployeesDashboardComponent } from './components/employee/employees-dashboard/employees-dashboard.component';
 import { EmployeeDetailsComponent } from './components/employee/employee-details/employee-details.component';
+import { PasswordResetComponent } from './components/admin/password-reset/password-reset.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard/employees', component: EmployeesComponent },
-
+  {
+    path: 'dashboard',
+    component: EmployeesDashboardComponent,
+    children: [
+      { path: 'employees', component: EmployeesComponent },
+      { path: 'summary', component: EmployeeDetailsComponent },
+      { path: '', redirectTo: 'employees', pathMatch: 'full' },
+    ],
+  },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/registration', component: AdminRegistrationComponent },
+  { path: '', component: PasswordResetComponent },
   {
     path: 'employees/leave-application/:employeeId',
     component: FileLeaveComponent,
   },
-  { path: 'dashboard', component: EmployeesDashboardComponent },
-  { path: 'dashboard/summary', component: EmployeeDetailsComponent },
-
   { path: '**', component: PageNotFoundComponent },
 ];
 

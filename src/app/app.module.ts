@@ -29,6 +29,8 @@ import { EmplooyeeDetailsDialogComponent } from './modal/emplooyee-details-dialo
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PasswordResetComponent } from './components/admin/password-reset/password-reset.component';
+import { LandingComponent } from './components/admin/landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     EmplooyeeDetailsDialogComponent,
     ConfirmationComponent,
     PageNotFoundComponent,
+    PasswordResetComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,

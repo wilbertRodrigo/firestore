@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Database } from '@angular/fire/database';
 import { Router } from '@angular/router';
-
+import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-admin-registration',
   templateUrl: './admin-registration.component.html',
@@ -12,32 +13,32 @@ export class AdminRegistrationComponent {
   constructor(
     public auth: Auth,
     public database: Database,
-    public router: Router
+    public router: Router,
+    private authService: AuthService,
+    private toastr: NotificationService
   ) {}
-
-  registerUser(value: any) {
-    createUserWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-
-        //this is for real-time database
-        // set(ref(this.database, 'users/' + user.uid), {
-        //   username: value.username,
-        //   email: value.email,
-        // });
-
-        alert(`user created with ${user.email}`); //later will add router
-        this.router.navigate(['dashboard']);
-        // this.router.navigate(['admin/login']);
+  email: string = '';
+  password: string = '';
+  onSubmit() {
+    if (this.email == '' || this.password == '') {
+      this.toastr.error('Please fill in all fields', 'Error');
+      return;
+    }
+    this.authService
+      .registerWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        this.toastr.showSuccess('Admin Registered', 'Success');
+        this.router.navigate(['admin/login']);
+        this.resetForm();
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        alert(errorMessage);
-
-        // ..
+      .catch(() => {
+        this.toastr.showError('Error Registering Admin', 'Error');
+        this.resetForm();
       });
+  }
+
+  resetForm() {
+    this.email = '';
+    this.password = '';
   }
 }
