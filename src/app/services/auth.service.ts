@@ -41,21 +41,7 @@ export class AuthService {
     }
   }
 
-  registerWithEmailAndPassword(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-      .then((adminCredential) => {
-        this.createAdminLoginCredential(adminCredential.user.uid, {
-          email: email,
-          role: 'admin',
-        });
-        console.log('Admin Registered');
-        return adminCredential;
-      })
-      .catch((error) => {
-        console.log('Error Registering Admin');
-        throw error;
-      });
-  }
+  registerWithEmailAndPassword(email: string, password: string) {}
   loginWithEmailAndPassword(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((adminCredential) => {
