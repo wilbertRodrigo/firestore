@@ -7,4 +7,5 @@ export interface Employee {
   department: string;
   dateOfHire: string;
   leaves?: Leave[]; // Array of leave objects
+  onLeave: boolean;
 }

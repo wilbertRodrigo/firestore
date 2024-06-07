@@ -15,9 +15,7 @@ import { EmplooyeeDetailsDialogComponent } from 'src/app/modal/emplooyee-details
 })
 export class EmployeeDetailsComponent implements OnInit {
   searchText = '';
-  employeesOnLeave$:
-    | Observable<{ employee: Employee; leaves: Leave[] }[]>
-    | undefined;
+
   employees: Employee[] = [];
 
   constructor(
@@ -26,22 +24,7 @@ export class EmployeeDetailsComponent implements OnInit {
     private dialog: MatDialog
   ) {}
   ngOnInit(): void {
-    this.employeesOnLeave$ = this.employeeService.getEmployees().pipe(
-      switchMap((employees) =>
-        combineLatest(
-          employees
-            .filter((employee) => employee.id !== undefined)
-            .map((employee) =>
-              this.leaveService.getLeaves(employee.id!).pipe(
-                map((leaves) => ({
-                  employee: employee,
-                  leaves: leaves,
-                }))
-              )
-            )
-        )
-      )
-    );
+    this.getEmployees();
   }
 
   getEmployees(): void {
@@ -63,9 +46,9 @@ export class EmployeeDetailsComponent implements OnInit {
       return acc;
     }, {} as { [key: string]: Leave[] });
   }
-  openDialog(item: { employee: Employee; leaves: Leave[] }) {
+  openDialog(employee: { employee: Employee; leaves: Leave[] }) {
     this.dialog.open(EmplooyeeDetailsDialogComponent, {
-      data: item,
+      data: employee,
     });
   }
 
