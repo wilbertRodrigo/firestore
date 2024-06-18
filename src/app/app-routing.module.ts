@@ -9,14 +9,18 @@ import { PageNotFoundComponent } from 'src/app/page-not-found/page-not-found.com
 import { EmployeesDashboardComponent } from './components/employee/employees-dashboard/employees-dashboard.component';
 import { EmployeeDetailsComponent } from './components/employee/employee-details/employee-details.component';
 import { PasswordResetComponent } from './components/admin/password-reset/password-reset.component';
-
+import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',
     component: EmployeesDashboardComponent,
     children: [
-      { path: 'employees', component: EmployeesComponent },
+      {
+        path: 'employees',
+        component: EmployeesComponent,
+        canActivate: [AuthGuard],
+      },
       { path: 'summary', component: EmployeeDetailsComponent },
       { path: '', redirectTo: 'employees', pathMatch: 'full' },
     ],

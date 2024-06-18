@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interface/employee';
 import { Leave } from 'src/app/interface/leave';
-import { TypesOfLeave } from '../../../interface/typesOfLeave';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -47,47 +46,46 @@ export class FileLeaveComponent implements OnInit {
       const { leaveType, leaveStartDate, leaveEndDate } = this.leaveForm.value;
       const employeeId = this.employee?.id;
       if (employeeId) {
+        // Convert strings to Date objects
+        const startDate: Date = new Date(leaveStartDate);
+        const endDate: Date = new Date(leaveEndDate);
+
         const leave: Leave = {
-          id: leaveType + leaveStartDate, // Assuming unique combination
+          id: '', // Leave the ID empty for Firestore to auto-generate
           leaveType,
-          from: leaveStartDate,
-          to: leaveEndDate,
+          from: startDate,
+          to: endDate,
           employeeId,
         };
 
-        this.leaveService.addLeave(leave).subscribe({
-          next: () => {
-            this.leaveService.addLeaveCredit(employeeId, leave.id!).subscribe({
-              next: () => {
-                console.log('Leave filed and credit added successfully');
-                this.leaveForm.reset();
-                this.toastr.showSuccess('Leave filed successfully', 'Success');
-                this.router.navigate(['/dashboard/employees']);
-              },
-              error: (err) => {
-                console.error('Error adding leave credit', err);
-              },
-            });
-          },
-          error: (err) => {
-            console.error('Error filing leave', err);
-          },
-        });
+        this.leaveService
+          .deductLeaveCredit(employeeId, leave.from, leave.to)
+          .subscribe({
+            next: () => {
+              console.log('Leave credit deducted successfully');
+              this.toastr.showSuccess(
+                'Leave credit deducted successfully',
+                'Success'
+              );
+              // Redirect to appropriate route, assuming '/dashboard/leaves'
+              this.router.navigate(['/dashboard/summary']);
+            },
+            error: (err) => {
+              if (err.message === 'Not enough leave credits') {
+                this.toastr.showError('Not enough leave credits', 'Error');
+              } else if (err.message === 'Employee not found') {
+                this.toastr.showError('Employee not found', 'Error');
+              } else {
+                this.toastr.showError('Error deducting leave credits', 'Error');
+                console.error('Error deducting leave credits', err);
+              }
+            },
+          });
       }
     }
   }
-  toggleLeaveStatus() {
-    const employeeId = this.employee?.id;
-    if (employeeId) {
-      this.employeeService
-        .updateEmployeeLeaveStatus(employeeId, false)
-        .then(() => {
-          console.log('Employee leave status updated to false');
-          this.router.navigate(['/dashboard/employees']);
-        })
-        .catch((error) => {
-          console.error('Error updating employee leave status', error);
-        });
-    }
+
+  onCancel() {
+    this.router.navigate(['/dashboard/employees']);
   }
 }

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 // Import ToastrModule and ToastrService
-import { ToastrModule, ToastrService } from 'ngx-toastr';
-
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -33,11 +33,18 @@ import { PasswordResetComponent } from './components/admin/password-reset/passwo
 import { LandingComponent } from './components/admin/landing/landing.component';
 import { AgentsComponent } from './animation/agents/agents.component';
 
+import { DetailComponent } from './components/employee/employee-details/detail/detail.component';
+import { connectAuthEmulator } from '@firebase/auth';
+import { connectFirestoreEmulator } from '@firebase/firestore';
+import { connectStorageEmulator } from '@firebase/storage';
+import { ViewEmployeeComponent } from './view-employee/view-employee.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesComponent,
-
     RegistrationComponent,
     AdminLoginComponent,
     AdminRegistrationComponent,
@@ -50,7 +57,7 @@ import { AgentsComponent } from './animation/agents/agents.component';
     PageNotFoundComponent,
     PasswordResetComponent,
     LandingComponent,
-    AgentsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -58,14 +65,37 @@ import { AgentsComponent } from './animation/agents/agents.component';
     ReactiveFormsModule,
     AppRoutingModule,
     MatDialogModule,
+    AngularFireModule,
+    HttpClientModule,
 
     // Import and provide ToastrModule.forRoot() here
     ToastrModule.forRoot(),
-
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
+
+    provideAuth(() => {
+      const auth = getAuth();
+      if (environment.production === false) {
+        connectAuthEmulator(auth, 'http://127.0.0.1:4000');
+      }
+      return auth;
+    }),
+
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      if (environment.production === false) {
+        connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+      }
+      return firestore;
+    }),
+
+    provideStorage(() => {
+      const storage = getStorage();
+      if (environment.production === false) {
+        connectStorageEmulator(storage, '', 9199);
+      }
+      return storage;
+    }),
     provideDatabase(() => getDatabase()),
     JwtModule.forRoot({
       config: {
