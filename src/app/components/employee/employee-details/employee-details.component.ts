@@ -83,11 +83,24 @@ export class EmployeeDetailsComponent implements OnInit {
     this.getEmployees();
   }
 
+  onSelectedEmployee(employee: Employee): void {
+    this.selectedEmployee = employee;
+    // this.getLeaveDetails(leaveId);
+  }
+
   getEmployees(): void {
     this.employeeService.getEmployees().subscribe((employees) => {
       this.employees = employees;
       this.heroesTotal = employees.length; // Set the total for animation
     });
+  }
+
+  get filteredEmployees(): Employee[] {
+    return this.searchText
+      ? this.employees.filter((employee) =>
+          employee.name.toLowerCase().includes(this.searchText.toLowerCase())
+        )
+      : this.employees;
   }
 
   updateCriteria(criteria: string) {

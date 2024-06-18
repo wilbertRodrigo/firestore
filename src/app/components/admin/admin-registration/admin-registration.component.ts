@@ -19,6 +19,23 @@ export class AdminRegistrationComponent {
   ) {}
   email: string = '';
   password: string = '';
+  onSubmit() {
+    if (this.email == '' || this.password == '') {
+      this.toastr.error('Please fill in all fields', 'Error');
+      return;
+    }
+    this.authService
+      .registerWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        this.toastr.showSuccess('Admin Registered', 'Success');
+        this.router.navigate(['admin/login']);
+        this.resetForm();
+      })
+      .catch(() => {
+        this.toastr.showError('Error Registering Admin', 'Error');
+        this.resetForm();
+      });
+  }
 
   resetForm() {
     this.email = '';

@@ -57,7 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
     PageNotFoundComponent,
     PasswordResetComponent,
     LandingComponent,
-
+    DetailComponent,
   ],
   imports: [
     BrowserModule,

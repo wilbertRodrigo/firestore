@@ -27,9 +27,8 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private firestore: Firestore,
-    public router: Router
-  ) // private jwtHelper: JwtHelperService
-  {}
+    public router: Router // private jwtHelper: JwtHelperService
+  ) {}
 
   //create admin document
   createAdminLoginCredential(uid: string, adminObject: object) {
@@ -41,7 +40,21 @@ export class AuthService {
     }
   }
 
-  registerWithEmailAndPassword(email: string, password: string) {}
+  registerWithEmailAndPassword(email: string, password: string) {
+    return createUserWithEmailAndPassword(this.auth, email, password)
+      .then((adminCredential) => {
+        this.createAdminLoginCredential(adminCredential.user.uid, {
+          email: email,
+          role: 'admin',
+        });
+        console.log('Admin Registered');
+        return adminCredential;
+      })
+      .catch((error) => {
+        console.log('Error Registering Admin');
+        throw error;
+      });
+  }
   loginWithEmailAndPassword(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((adminCredential) => {
