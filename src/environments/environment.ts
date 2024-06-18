@@ -7,4 +7,5 @@ export const environment = {
     authDomain: 'tryagain-95ac3.firebaseapp.com',
     messagingSenderId: '1018893238032',
   },
+  production: true,
 };

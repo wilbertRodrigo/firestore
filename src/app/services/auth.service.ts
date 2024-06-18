@@ -27,9 +27,9 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private firestore: Firestore,
-    public router: Router,
-    private jwtHelper: JwtHelperService
-  ) {}
+    public router: Router
+  ) // private jwtHelper: JwtHelperService
+  {}
 
   //create admin document
   createAdminLoginCredential(uid: string, adminObject: object) {

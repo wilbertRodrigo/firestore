@@ -27,16 +27,6 @@ export class EmplooyeeDetailsDialogComponent {
     }, {} as { [key: string]: Leave[] });
   }
 
-  getTotalLeaveDays(leaves: Leave[]): number {
-    return leaves.reduce((acc, leave) => {
-      const from = new Date(leave.from);
-      const to = new Date(leave.to);
-      const diffTime = Math.abs(to.getTime() - from.getTime());
-      const leaveDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return acc + leaveDays;
-    }, 0);
-  }
-
   closeDialog() {
     this.dialogRef.close();
     this.buttonDisabled = true;
