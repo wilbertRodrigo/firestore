@@ -32,11 +32,18 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PasswordResetComponent } from './components/admin/password-reset/password-reset.component';
 import { LandingComponent } from './components/admin/landing/landing.component';
 
+import { DetailComponent } from './components/employee/employee-details/detail/detail.component';
+import { connectAuthEmulator } from '@firebase/auth';
+import { connectFirestoreEmulator } from '@firebase/firestore';
+import { connectStorageEmulator } from '@firebase/storage';
+import { ViewEmployeeComponent } from './view-employee/view-employee.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesComponent,
-
     RegistrationComponent,
     AdminLoginComponent,
     AdminRegistrationComponent,
@@ -49,6 +56,8 @@ import { LandingComponent } from './components/admin/landing/landing.component';
     PageNotFoundComponent,
     PasswordResetComponent,
     LandingComponent,
+    DetailComponent,
+    ViewEmployeeComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,14 +65,37 @@ import { LandingComponent } from './components/admin/landing/landing.component';
     ReactiveFormsModule,
     AppRoutingModule,
     MatDialogModule,
+    AngularFireModule,
+    HttpClientModule,
 
     // Import and provide ToastrModule.forRoot() here
     ToastrModule.forRoot(),
-
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
+
+    provideAuth(() => {
+      const auth = getAuth();
+      if (environment.production === false) {
+        connectAuthEmulator(auth, 'http://127.0.0.1:4000');
+      }
+      return auth;
+    }),
+
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      if (environment.production === false) {
+        connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+      }
+      return firestore;
+    }),
+
+    provideStorage(() => {
+      const storage = getStorage();
+      if (environment.production === false) {
+        connectStorageEmulator(storage, '', 9199);
+      }
+      return storage;
+    }),
     provideDatabase(() => getDatabase()),
     JwtModule.forRoot({
       config: {

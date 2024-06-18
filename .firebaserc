@@ -1,4 +1,8 @@
 {
+  "projects": {
+    "default": "tryagain-95ac3",
+    "testingEmulator": "tryagain-95ac3"
+  },
   "targets": {
     "tryagain-95ac3": {
       "hosting": {
@@ -8,7 +12,6 @@
       }
     }
   },
-  "projects": {
-    "default": "tryagain-95ac3"
-  }
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

@@ -4,6 +4,8 @@ import { EmployeeService } from '../../../services/employee.service';
 import { Observable, map } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-employees',
@@ -43,7 +45,9 @@ export class EmployeesComponent {
   constructor(
     private employeeService: EmployeeService,
     private fb: FormBuilder,
-    private toastr: NotificationService
+    private toastr: NotificationService,
+    private responsive: BreakpointObserver,
+    private http: HttpClient
   ) {
     //this form is for adding employees
     this.employeeForm = this.fb.group({
@@ -63,6 +67,17 @@ export class EmployeesComponent {
 
     const now = new Date();
     this.today = now.toISOString().split('T')[0];
+    this.responsive
+      .observe([Breakpoints.TabletPortrait, Breakpoints.HandsetLandscape])
+      .subscribe((result) => {
+        const breakpoints = result.breakpoints;
+
+        if (breakpoints[Breakpoints.TabletPortrait]) {
+          console.log('screens matches TabletPortrait');
+        } else if (breakpoints[Breakpoints.HandsetLandscape]) {
+          console.log('screens matches HandsetLandscape');
+        }
+      });
   }
 
   ngOnInit() {
@@ -104,6 +119,7 @@ export class EmployeesComponent {
         });
     }
   }
+
   //deleting employee
   removeEmployee(employee: Employee) {
     this.employeeService

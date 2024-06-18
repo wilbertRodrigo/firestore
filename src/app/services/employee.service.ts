@@ -32,8 +32,14 @@ export class EmployeeService {
   }
 
   //adding Employee
+
   addEmployee(employee: Employee) {
-    return addDoc(this.employeesCollection, employee);
+    const newEmployee: Employee = {
+      ...employee,
+      leaveCredits: 20,
+      leaves: [],
+    };
+    return addDoc(this.employeesCollection, newEmployee);
   }
 
   //getting all Employees
