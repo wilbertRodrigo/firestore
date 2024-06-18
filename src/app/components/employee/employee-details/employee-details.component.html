@@ -1,33 +1,5 @@
-<div class="flex justify-center items-center">
-  <div class="w-full max-w-4xl flex flex-col justify-evenly">
-    <!-- Left panel -->
-    <div class="search-container p-4">
-      <input
-        type="text"
-        (input)="updateCriteria(criteria.value)"
-        placeholder="Search employees..."
-        #criteria
-      />
-    </div>
-    <div class="flex flex-row">
-      <div class="flex-1 p-4" [@pageAnimations]>
-        <ul class="heroes" [@filterAnimation]="heroesTotal">
-          <li
-            *ngFor="let employee of filteredEmployees"
-            class="hero"
-            (click)="onSelectedEmployee(employee)"
-          >
-            <div class="inner">
-              <span class="name">{{ employee.name }}</span>
-              <span class="badge">{{ employee.department }}</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="flex-1 p-4">
-        <app-detail [employee]="selectedEmployee"></app-detail>
-        <!-- Leave Details Section -->
-      </div>
+
+
     </div>
   </div>
   <!-- Right panel -->

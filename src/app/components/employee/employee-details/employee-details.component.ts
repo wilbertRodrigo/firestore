@@ -66,6 +66,7 @@ export class EmployeeDetailsComponent implements OnInit {
   public animatePage = true;
   searchText = '';
 
+
   data: any;
   employees: EmployeeWithLeave[] = [];
   selectedEmployee: Employee | undefined;
@@ -81,11 +82,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployees();
-  }
 
-  onSelectedEmployee(employee: Employee): void {
-    this.selectedEmployee = employee;
-    // this.getLeaveDetails(leaveId);
   }
 
   getEmployees(): void {
@@ -95,12 +92,6 @@ export class EmployeeDetailsComponent implements OnInit {
     });
   }
 
-  get filteredEmployees(): Employee[] {
-    return this.searchText
-      ? this.employees.filter((employee) =>
-          employee.name.toLowerCase().includes(this.searchText.toLowerCase())
-        )
-      : this.employees;
   }
 
   updateCriteria(criteria: string) {

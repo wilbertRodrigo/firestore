@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PasswordResetComponent } from './components/admin/password-reset/password-reset.component';
 import { LandingComponent } from './components/admin/landing/landing.component';
+import { AgentsComponent } from './animation/agents/agents.component';
 
 import { DetailComponent } from './components/employee/employee-details/detail/detail.component';
 import { connectAuthEmulator } from '@firebase/auth';
@@ -56,8 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
     PageNotFoundComponent,
     PasswordResetComponent,
     LandingComponent,
-    DetailComponent,
-    ViewEmployeeComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -9,4 +9,5 @@ export interface Employee {
   leaveCredits: number;
   pictureUrl?: string;
   leaves?: Leave[]; // Array of leave objects
+  onLeave: boolean;
 }
